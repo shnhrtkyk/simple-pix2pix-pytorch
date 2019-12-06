@@ -76,7 +76,7 @@ for epoch in range(args.epoch):
         positive_examples = discriminator_D.forward(input_x, input_real)
         loss_dis = 0.5 * ( loss_binaryCrossEntropy(positive_examples, Variable(torch.ones(positive_examples.size())).cuda()) \
                           +loss_binaryCrossEntropy(negative_examples, Variable(torch.zeros(negative_examples.size())).cuda()))
-        loss_dis.backward(retain_variables=True)
+        loss_dis.backward(retain_graph=True)
         optimizer_D.step()
 
         optimizer_G.zero_grad()
@@ -87,7 +87,7 @@ for epoch in range(args.epoch):
         optimizer_G.step()
 
         if iterate % args.iterate == 0:
-            print ('{} [{}/{}] LossGen= {} LossDis= {}'.format(iterate, epoch+1, args.epoch, loss_gen.data[0], loss_dis.data[0]))
+            print ('{} [{}/{}] LossGen= {} LossDis= {}'.format(iterate, epoch+1, args.epoch, loss_gen.items(), loss_dis.items()))
 
         #""" MONITOR
         out_gen = out_generator_G.cpu()
