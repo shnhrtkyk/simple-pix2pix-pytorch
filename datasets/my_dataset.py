@@ -12,10 +12,10 @@ class Dataset():
         files_B = os.listdir(dataDir + "trainB")
 
         for i in (files_A):
-            real_image = cv2.imread(dataDir+"/trainA/"+i)
+            real_image = cv2.imread(dataDir+"/trainB/"+i)
             real_image = self.resize(real_image, ipl_alg = cv2.INTER_CUBIC)
 
-            input_x_image = cv2.imread(dataDir+"/trainB/"+i)
+            input_x_image = cv2.imread(dataDir+"/trainA/"+i)
             input_x_image = self.resize(input_x_image, ipl_alg = cv2.INTER_NEAREST)
 
             self.dataset.append((input_x_image, real_image))
@@ -23,8 +23,7 @@ class Dataset():
             self.shufflelist = list(range(self.len()))
 
     def resize (self, img, base_size = 256, ipl_alg = cv2.INTER_CUBIC):
-        img_height, img_width, _ = img.shape
-        short_side = min(img_height, img_width)
+        img_height, img_width, _ = img.shape        short_side = min(img_height, img_width)
         rasio = base_size / short_side
 
         new_width  = int(img_width * rasio)
